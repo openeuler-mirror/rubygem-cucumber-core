@@ -1,7 +1,7 @@
 %global gem_name cucumber-core
 Name:                rubygem-%{gem_name}
 Version:             3.2.0
-Release:             2
+Release:             3
 Summary:             Core library for the Cucumber BDD app
 License:             MIT
 URL:                 https://cucumber.io
@@ -42,7 +42,7 @@ for file in $(grep -Rl unindent spec); do
   sed -i "/require 'unindent'/ s/^/#/" "${file}"
   sed -i '/^ *expect.*unindent$/ i \pending' "${file}"
 done
-LANG=C.UTF-8 rspec spec
+LANG=C.UTF-8 rspec -rkramdown/parser/gfm spec
 popd
 
 %files
@@ -60,7 +60,10 @@ popd
 %doc %{gem_instdir}/CHANGELOG.md
 
 %changelog
-* Tue Dec 15 2020 chengzihan <chengzihan2@huawei.com> -3.2.0-2
+* Thu 23 Sep 2021 sunguoshuai <sunguoshuai@huawei.com> - 3.2.0-3
+- Fix build error with gfm
+
+* Tue Dec 15 2020 chengzihan <chengzihan2@huawei.com> - 3.2.0-2
 - add BuildRequires: rubygem(kramdown-parser-gfm) fix compiling problem
 
 * Wed Aug 19 2020 fanjiachen <fanjiachen3@huawei.com> - 3.2.0-1
