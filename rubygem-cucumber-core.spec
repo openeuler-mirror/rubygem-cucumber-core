@@ -1,12 +1,15 @@
 %global gem_name cucumber-core
 Name:                rubygem-%{gem_name}
 Version:             3.2.0
-Release:             2
+Release:             3
 Summary:             Core library for the Cucumber BDD app
 License:             MIT
 URL:                 https://cucumber.io
 Source0:             https://rubygems.org/gems/%{gem_name}-%{version}.gem
 Source1:             https://github.com/cucumber/cucumber-ruby-core/archive/v%{version}.tar.gz
+%ifarch riscv64
+Patch0:		     riscv-timeout.patch
+%endif
 BuildRequires:       ruby(release) rubygems-devel ruby rubygem(gherkin) rubygem(rspec)
 BuildRequires:       rubygem(kramdown) rubygem(cucumber-tag_expressions) rubygem(backports)
 BuildRequires:       rubygem(kramdown-parser-gfm)
@@ -22,7 +25,7 @@ BuildArch:           noarch
 Documentation for %{name}.
 
 %prep
-%setup -q -n %{gem_name}-%{version} -b 1
+%autosetup -n %{gem_name}-%{version}
 %gemspec_remove_dep -s ../%{gem_name}-%{version}.gemspec -g gherkin '>= 5.0.0'
 %gemspec_add_dep -s ../%{gem_name}-%{version}.gemspec -g gherkin '>= 4.1.0'
 
@@ -60,7 +63,10 @@ popd
 %doc %{gem_instdir}/CHANGELOG.md
 
 %changelog
-* Tue Dec 15 2020 chengzihan <chengzihan2@huawei.com> -3.2.0-2
+* Mon Feb 21 2022 YukariChiba <i@0x7f.cc> - 3.2.0-3
+- Fix package for RISC-V (adjust test timeout)
+
+* Tue Dec 15 2020 chengzihan <chengzihan2@huawei.com> - 3.2.0-2
 - add BuildRequires: rubygem(kramdown-parser-gfm) fix compiling problem
 
 * Wed Aug 19 2020 fanjiachen <fanjiachen3@huawei.com> - 3.2.0-1
